@@ -1,11 +1,9 @@
-
+import { AppRouter } from "./router/AppRouter"
 
 function TicketsApp() {
  
   return (
-    <>
-     <h1>TicketsApp</h1>
-    </>
+    <AppRouter />
   )
 }
 
