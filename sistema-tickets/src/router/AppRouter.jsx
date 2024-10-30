@@ -6,7 +6,7 @@ export const AppRouter = () => {
   return (
     <Routes>
         {/* login y registro de usuarios */}
-        <Route path="/auth/*" element={<AuthRoutes />} />
+        <Route path="/*" element={<AuthRoutes />} />
 
         {/* rutas de los perfiles que manejan los tickets*/}
         <Route path="/*" element={<TicketsRoutes />} />
