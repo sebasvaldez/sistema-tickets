@@ -8,7 +8,6 @@ export const ScreenSizeContextProvider = ({ children }) => {
   const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"));
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
-  console.log({isMobile, isTablet,  isDesktop})
 
   return (
     <ScreenSizeContext.Provider value={{ isMobile, isTablet, isDesktop }}>

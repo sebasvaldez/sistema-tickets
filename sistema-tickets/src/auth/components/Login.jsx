@@ -1,10 +1,25 @@
+import { useState } from "react";
 import { useScreenSize } from "../../hooks/useScreenSize.js";
-import { Box, FormControl, TextField,  } from "@mui/material";
-
-
+import { Box, Button, FormControl, TextField } from "@mui/material";
 
 export const Login = () => {
   const { isMobile, isTablet, isDesktop } = useScreenSize();
+
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleSubmit = () => {
+    console.log(user.email, user.password);
+  };
 
   return (
     <Box
@@ -14,10 +29,8 @@ export const Login = () => {
         flexDirection: "column",
         width: isMobile ? "80%" : isTablet ? "90%" : "100%",
         maxWidth: "400px",
-        margin: "10px auto",
-        border: "1px solid black",
         padding: "20px",
-
+        boxShadow: 2,
       }}
     >
       <FormControl>
@@ -29,6 +42,7 @@ export const Login = () => {
           margin="normal"
           required
           fullWidth
+          onChange={handleChange}
         />
       </FormControl>
       <FormControl>
@@ -40,7 +54,11 @@ export const Login = () => {
           margin="normal"
           required
           fullWidth
+          onChange={handleChange}
         />
+        <Button onClick={handleSubmit} variant="contained">
+          Ingresar
+        </Button>
       </FormControl>
     </Box>
   );
