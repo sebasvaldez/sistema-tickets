@@ -23,7 +23,7 @@ export const AppRouter = () => {
         <Route path="/*" element={<TicketsRoutes />} />
     </Routes>
 
-    <FooterLog />
+    {/* <FooterLog /> */}
     </Box>
   )
 }
