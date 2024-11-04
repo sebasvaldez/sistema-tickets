@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import {
   AppBar,
   Box,
@@ -15,36 +15,34 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material/";
-import MailIcon from "@mui/icons-material/Mail";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MenuIcon from "@mui/icons-material/Menu";
-import {Register} from "../auth/components/Register";
+import { DailyTickets } from "./DailyTickets";
+import { FinalizedTickets } from "./FinalizedTickets";
+import { PendingTickets } from "./PendingTickets";
+
 
 
 const drawerWidth = 240;
 
-export const DashboardLayoutBasic = (props) => {
-  const { window } = props;
+export const DashboardTechnical = (props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [selectedoption, setSelectedOption] = useState("");
 
-
-  const renderComponent = ()=>{
-    switch(selectedoption){
-      case "Crear ticket":
-        return <Register />;
+  const renderComponet = () => {
+    
+    switch (selectedoption) {
+      
       case "Pendientes":
-        return <h1>Pendientes</h1>;
+        return <PendingTickets />;
       case "Finalizados":
-        return <h1>Finalizados</h1>;
-      case "Técnicos":
-        return <h1>Técnicos</h1>;
+        return <FinalizedTickets />;
+      
       default:
-        return <h1>Default screen</h1>;
+        return <DailyTickets  />;
     }
-  }
-
+  };
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -67,14 +65,6 @@ export const DashboardLayoutBasic = (props) => {
       <Divider />
       <List>
         <ListItem disablePadding>
-          <ListItemButton onClick={() => setSelectedOption("Crear ticket")}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary="Crear ticket" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
           <ListItemButton onClick={() => setSelectedOption("Pendientes")}>
             <ListItemIcon>
               <InboxIcon />
@@ -90,23 +80,15 @@ export const DashboardLayoutBasic = (props) => {
             <ListItemText primary="Finalizados" />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => setSelectedOption("Técnicos")}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary="Técnicos" />
-          </ListItemButton>
-        </ListItem>
       </List>
-      
+
       <Divider />
+
+      <List></List>
     </div>
   );
 
   // Remove this const when copying and pasting into your project.
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -147,13 +129,12 @@ export const DashboardLayoutBasic = (props) => {
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
-          container={container}
           variant="temporary"
           open={mobileOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
@@ -183,13 +164,13 @@ export const DashboardLayoutBasic = (props) => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          bgcolor: "background.default",
+          p: { sm: 3 },
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-      
         <Toolbar />
-        {renderComponent()}
+        {renderComponet()}
       </Box>
     </Box>
   );

@@ -1,12 +1,23 @@
-import { Route, Routes } from "react-router-dom";
-import { AdminPage, NoTechnicalPage, TechnicalPage } from "../pages";
+import { Route, Routes, Navigate } from "react-router-dom";
+import { DashboardAdministrator } from "../../tickets/components/DashboardAdministrator";
+import { DashboardTechnical } from "../components/DashboardTechnical";
+
+
 
 export const TicketsRoutes = () => {
+  const role = "administrator";
   return (
     <Routes>
-      <Route path="/admin" element={<AdminPage />} />
-      <Route path="/technical" element={<TechnicalPage />} />
-      <Route path="/no-technical" element={<NoTechnicalPage />} />
+      {role === "administrator" && <Route path='/dashboard/administrator' element={<DashboardAdministrator />} />} 
+      {role === "technical" && <Route path="/dashboard/technical" element={<DashboardTechnical />} />}
+      {role==="no-technical" && <Route path="/dashboard/no-technical" element={<h1>No technical dashboard</h1>} />}
+
+
+      <Route path="/*" element={<Navigate to={`/dashboard/${role}`} />} />
+
+      
+      
     </Routes>
   );
 };
+

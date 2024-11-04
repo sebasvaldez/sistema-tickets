@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useScreenSize } from "../../hooks/useScreenSize.js";
+import { loginRequest } from "../../api/auth.js";
 import { Box, Button, FormControl, TextField } from "@mui/material";
+import { useAuth } from "../../hooks/useAuth.js";
 
 export const Login = () => {
   const { isMobile, isTablet, isDesktop } = useScreenSize();
+  const { loginUser, userData } = useAuth();
 
   const [user, setUser] = useState({
     email: "",
@@ -17,9 +20,11 @@ export const Login = () => {
     });
   };
 
-  const handleSubmit = () => {
-    console.log(user.email, user.password);
+  const handleSubmit = async () => {
+    loginUser(user);
   };
+
+  console.log(userData);
 
   return (
     <Box

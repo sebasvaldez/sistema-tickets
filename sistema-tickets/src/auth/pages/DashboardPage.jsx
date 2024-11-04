@@ -1,6 +1,12 @@
-import { DashboardLayoutBasic } from "../../components/DashboardLayoutBasic"
+import { DashboardAdministrator } from "../components/DashboardAdministrator"
 export const DashboardPage = () => {
-  return (
-    <DashboardLayoutBasic />
-  )
-}
+  const role = "administrator";
+
+  if (role == "administrator") {
+    return <DashboardAdministrator />;
+  } else if(role =="technical"){
+    return <h1>Technical</h1>;
+  }else{
+    return <h1>No technical</h1>;
+  }
+};

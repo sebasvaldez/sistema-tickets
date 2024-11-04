@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../../hooks/useAuth.js";
 import { useScreenSize } from "../../hooks/useScreenSize.js";
 import {
   Box,
@@ -11,17 +12,24 @@ import {
 } from "@mui/material";
 
 export const Register = () => {
+  const { registerUser } = useAuth();
   const { isMobile, isTablet, isDesktop } = useScreenSize();
+
 
   const [role, setRole] = useState("");
 
-  const [newUser, setNewUser] = useState({
-    name: "",
+  const userDefault={ name: "",
     lastname: "",
     email: "",
     role: "",
-    password: "",
-  });
+    password: "",}
+
+  const [newUser, setNewUser] = useState(userDefault);
+
+
+
+
+
 
   const handleChange = (e) => {
     setNewUser({
@@ -36,7 +44,8 @@ export const Register = () => {
   };
 
   const handleSubmit = () => {
-    console.log(newUser);
+    registerUser(newUser);
+    setNewUser(userDefault);
   };
 
   return (
@@ -49,7 +58,9 @@ export const Register = () => {
         maxWidth: "400px",
         padding: "20px",
         boxShadow: 2,
-        marginY: "40px",
+        margin: "auto",
+        marginTop: "20px",
+
       }}
     >
       <FormControl>
@@ -62,6 +73,7 @@ export const Register = () => {
           required
           fullWidth
           onChange={handleChange}
+          value={newUser.name}
         />
         <TextField
           id="lastname"
@@ -72,6 +84,7 @@ export const Register = () => {
           required
           fullWidth
           onChange={handleChange}
+          value={newUser.lastname}
         />
         <TextField
           id="email"
@@ -82,6 +95,7 @@ export const Register = () => {
           required
           fullWidth
           onChange={handleChange}
+          value={newUser.email}
         />
         <FormControl>
           <InputLabel id="roleId">Role</InputLabel>
@@ -110,11 +124,14 @@ export const Register = () => {
           required
           fullWidth
           onChange={handleChange}
+          value={newUser.password}
         />
         <Button onClick={handleSubmit} variant="contained">
           Registrar
         </Button>
-        <Button>Limpiar campos</Button>
+        <Button
+        onClick={()=>setNewUser(userDefault)}
+        >Limpiar campos</Button>
       </FormControl>
     </Box>
   );
