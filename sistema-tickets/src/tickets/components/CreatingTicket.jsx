@@ -2,8 +2,6 @@ import {
   FormControl,
   TextField,
   Box,
-  InputLabel,
-  Select,
   Button,
 } from "@mui/material";
 import { useScreenSize } from "../../hooks/useScreenSize";
@@ -12,11 +10,13 @@ import { useNavigate } from "react-router-dom";
 
 export const CreatingTicket = () => {
 
-  const [newTicket, setNewTicket] = useState({
+  const ticketDefault = {
     title: "",
     description: "",
     status: "pending",
-  });
+  }
+
+  const [newTicket, setNewTicket] = useState(ticketDefault);
   const { isMobile, isTablet, isDesktop } = useScreenSize();
 
   const navigate= useNavigate();
@@ -30,14 +30,11 @@ export const CreatingTicket = () => {
 
   const handleSubmitTicket = () => {
     console.log(newTicket);
+
   };
   const cancelTicket = () => {
-    console.log("Ticket cancelado");
-    setNewTicket({
-      title: "",
-      description: "",
-      status: "pending",
-    });
+    
+    setNewTicket(ticketDefault);
   };
 
   return (
@@ -54,6 +51,7 @@ export const CreatingTicket = () => {
         marginTop: "20px",
       }}
     >
+
       <FormControl>
         <TextField
           id="title"

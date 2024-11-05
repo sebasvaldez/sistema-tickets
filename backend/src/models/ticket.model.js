@@ -32,6 +32,16 @@ const ticketSchema = new mongoose.Schema(
       ref: "User",
       default: null,
     },
+    history: [
+      {
+        date: { type: Date, default: Date.now },
+        updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        changes: {
+          type: Map,
+          of: String,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

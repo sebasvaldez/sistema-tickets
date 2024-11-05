@@ -10,3 +10,5 @@ export const loginRequest = (user) => axios.post(`${API}/login`, user);
 
 export const registerRequest = (user) =>
   axios.post(`${API}/register`, user);
+
+

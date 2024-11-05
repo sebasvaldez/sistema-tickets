@@ -22,17 +22,20 @@ import { CreatingTicket } from "./CreatingTicket";
 import { DailyTickets } from "./DailyTickets";
 import { FinalizedTickets } from "./FinalizedTickets";
 import { PendingTickets } from "./PendingTickets";
+import { TechnicalList } from "./TechnicalList";
+import { NoTechnicalList } from "./NoTechnicalList";
 
 const drawerWidth = 240;
 
 export const DashboardAdministrator = (props) => {
-
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [selectedoption, setSelectedOption] = useState("");
 
   const renderComponet = () => {
     switch (selectedoption) {
+      case "Tickets del dia":
+        return <DailyTickets />;
       case "Crear ticket":
         return <CreatingTicket />;
       case "Pendientes":
@@ -44,9 +47,9 @@ export const DashboardAdministrator = (props) => {
       case "Nuevo usuario":
         return <Register />;
       case "Tecnicos":
-        return <h1>Técnicos</h1>;
+        return <TechnicalList />;
       case "No tecnicos":
-        return <h1>No tecnicos</h1>;
+        return <NoTechnicalList />;
       default:
         return <DailyTickets />;
     }
@@ -72,6 +75,14 @@ export const DashboardAdministrator = (props) => {
       <Toolbar />
       <Divider />
       <List>
+      <ListItem disablePadding>
+          <ListItemButton onClick={() => setSelectedOption("Tickets del dia")}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary="Tickets del día" />
+          </ListItemButton>
+        </ListItem>
         <ListItem disablePadding>
           <ListItemButton onClick={() => setSelectedOption("Crear ticket")}>
             <ListItemIcon>
