@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import TicketsApp from "./TicketsApp.jsx";
 import { BrowserRouter } from "react-router-dom";
@@ -7,13 +6,11 @@ import { AuthContextProvider } from "./context/authContext/AuthContextProvider.j
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
-    <AuthContextProvider>
-
-
+  <AuthContextProvider>
     <BrowserRouter>
       <ScreenSizeContextProvider>
         <TicketsApp />
       </ScreenSizeContextProvider>
     </BrowserRouter>
-    </AuthContextProvider>
+  </AuthContextProvider>
 );

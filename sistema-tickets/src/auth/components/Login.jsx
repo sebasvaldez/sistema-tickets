@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import  {useNavigate} from "react-router-dom";
 import { useScreenSize } from "../../hooks/useScreenSize.js";
-import { loginRequest } from "../../api/auth.js";
 import { Box, Button, FormControl, TextField } from "@mui/material";
 import { useAuth } from "../../hooks/useAuth.js";
 
 export const Login = () => {
   const { isMobile, isTablet, isDesktop } = useScreenSize();
-  const { loginUser, userData } = useAuth();
+  const { loginUser, userData, isAhtenticated } = useAuth();
+
+  const navigate= useNavigate();
 
   const [user, setUser] = useState({
     email: "",
@@ -21,10 +23,26 @@ export const Login = () => {
   };
 
   const handleSubmit = async () => {
-    loginUser(user);
+    await loginUser(user);
   };
 
-  console.log(userData);
+
+  useEffect(() => {
+    if(isAhtenticated){
+      if(userData.role==="administrator"){
+        navigate("/dashboard/administrator")
+      }else if(userData.role==="technical"){
+        navigate("/dashboard/technical")
+      }else if(userData.role==="no-technical"){
+        navigate("/dashboard/no-technical")
+      }
+
+    }
+
+    
+  }, [isAhtenticated])
+  
+ 
 
   return (
     <Box

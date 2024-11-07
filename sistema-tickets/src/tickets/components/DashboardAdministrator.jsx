@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -27,7 +29,10 @@ import { NoTechnicalList } from "./NoTechnicalList";
 
 const drawerWidth = 240;
 
-export const DashboardAdministrator = (props) => {
+export const DashboardAdministrator = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [selectedoption, setSelectedOption] = useState("");
@@ -75,7 +80,7 @@ export const DashboardAdministrator = (props) => {
       <Toolbar />
       <Divider />
       <List>
-      <ListItem disablePadding>
+        <ListItem disablePadding>
           <ListItemButton onClick={() => setSelectedOption("Tickets del dia")}>
             <ListItemIcon>
               <InboxIcon />
@@ -166,7 +171,10 @@ export const DashboardAdministrator = (props) => {
             Bienvenido Sebastián
           </Typography>
           <Button
-            onClick={() => console.log("Saliendo...")}
+            onClick={() => {
+              logout();
+              navigate("/");
+            }}
             variant="outlined"
             sx={{ color: "white", marginLeft: "auto" }}
           >
