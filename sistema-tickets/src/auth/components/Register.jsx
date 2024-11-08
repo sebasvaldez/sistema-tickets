@@ -9,27 +9,24 @@ import {
   MenuItem,
   Select,
   TextField,
+  Alert,
 } from "@mui/material";
 
 export const Register = () => {
-  const { registerUser } = useAuth();
+  const { registerUser, error } = useAuth();
   const { isMobile, isTablet, isDesktop } = useScreenSize();
-
 
   const [role, setRole] = useState("");
 
-  const userDefault={ name: "",
+  const userDefault = {
+    name: "",
     lastname: "",
     email: "",
     role: "",
-    password: "",}
+    password: "",
+  };
 
   const [newUser, setNewUser] = useState(userDefault);
-
-
-
-
-
 
   const handleChange = (e) => {
     setNewUser({
@@ -60,9 +57,15 @@ export const Register = () => {
         boxShadow: 2,
         margin: "auto",
         marginTop: "20px",
-
       }}
     >
+      <Box sx={{ display: error ? "block" : "none" }}>
+        {error?.map((text) => (
+          <Alert key={text} sx={{ textAlign: "start" }} severity="error">
+            {text}
+          </Alert>
+        ))}
+      </Box>
       <FormControl>
         <TextField
           id="name"
@@ -75,6 +78,7 @@ export const Register = () => {
           onChange={handleChange}
           value={newUser.name}
         />
+
         <TextField
           id="lastname"
           label="lastname"
@@ -86,6 +90,7 @@ export const Register = () => {
           onChange={handleChange}
           value={newUser.lastname}
         />
+
         <TextField
           id="email"
           label="Email"
@@ -97,6 +102,7 @@ export const Register = () => {
           onChange={handleChange}
           value={newUser.email}
         />
+
         <FormControl>
           <InputLabel id="roleId">Role</InputLabel>
           <Select
@@ -126,12 +132,22 @@ export const Register = () => {
           onChange={handleChange}
           value={newUser.password}
         />
-        <Button onClick={handleSubmit} variant="contained">
+
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          sx={{ marginTop: "10px" }}
+        >
           Registrar
         </Button>
         <Button
-        onClick={()=>setNewUser(userDefault)}
-        >Limpiar campos</Button>
+          onClick={() => setNewUser(userDefault)}
+          variant="outlined"
+          color="success"
+          sx={{ marginTop: "10px" }}
+        >
+          Limpiar campos
+        </Button>
       </FormControl>
     </Box>
   );

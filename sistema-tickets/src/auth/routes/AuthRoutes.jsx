@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { LoginPage, RegisterPage } from "../pages";
+import { LoginPage } from "../pages";
 
 export const AuthRoutes = () => {
   return (
@@ -11,3 +11,4 @@ export const AuthRoutes = () => {
     </Routes>
   );
 };
+

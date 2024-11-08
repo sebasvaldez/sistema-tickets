@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import  {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useScreenSize } from "../../hooks/useScreenSize.js";
-import { Box, Button, FormControl, TextField } from "@mui/material";
+import { Box, Button, FormControl, TextField, Alert } from "@mui/material";
 import { useAuth } from "../../hooks/useAuth.js";
 
 export const Login = () => {
   const { isMobile, isTablet, isDesktop } = useScreenSize();
-  const { loginUser, userData, isAhtenticated } = useAuth();
+  const { loginUser, userData, isAuthenticated, error, setError } = useAuth();
 
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     email: "",
@@ -26,27 +26,20 @@ export const Login = () => {
     await loginUser(user);
   };
 
-
   useEffect(() => {
-    if(isAhtenticated){
-      if(userData.role==="administrator"){
-        navigate("/dashboard/administrator")
-      }else if(userData.role==="technical"){
-        navigate("/dashboard/technical")
-      }else if(userData.role==="no-technical"){
-        navigate("/dashboard/no-technical")
+    if (isAuthenticated) {
+      if (userData.role === "administrator") {
+        navigate("/dashboard/administrator");
+      } else if (userData.role === "technical") {
+        navigate("/dashboard/technical");
+      } else if (userData.role === "no-technical") {
+        navigate("/dashboard/no-technical");
       }
-
     }
-
-    
-  }, [isAhtenticated])
-  
- 
+  }, [isAuthenticated]);
 
   return (
     <Box
-    
       component="form"
       sx={{
         display: "flex",
@@ -57,6 +50,13 @@ export const Login = () => {
         boxShadow: 2,
       }}
     >
+      <Box sx={{ display: error ? "block" : "none" }}>
+        {error?.map((text) => (
+          <Alert key={text} sx={{ textAlign: "start" }} severity="error">
+            {text}
+          </Alert>
+        ))}
+      </Box>
       <FormControl>
         <TextField
           id="email"
@@ -68,6 +68,8 @@ export const Login = () => {
           fullWidth
           onChange={handleChange}
         />
+
+        
       </FormControl>
       <FormControl>
         <TextField
@@ -80,6 +82,7 @@ export const Login = () => {
           fullWidth
           onChange={handleChange}
         />
+        
         <Button onClick={handleSubmit} variant="contained">
           Ingresar
         </Button>

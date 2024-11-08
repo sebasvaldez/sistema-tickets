@@ -30,7 +30,11 @@ import { NoTechnicalList } from "./NoTechnicalList";
 const drawerWidth = 240;
 
 export const DashboardAdministrator = () => {
-  const { logout } = useAuth();
+  const { logOut, userData } = useAuth();
+
+  const {name, lastname}= userData
+
+
   const navigate = useNavigate();
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -74,6 +78,11 @@ export const DashboardAdministrator = () => {
       setMobileOpen(!mobileOpen);
     }
   };
+
+  const handleLogout = () => {
+    logOut();
+    navigate("/auth/login");
+  }
 
   const drawer = (
     <div>
@@ -168,13 +177,10 @@ export const DashboardAdministrator = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Bienvenido Sebastián
+            Bienvenido {name} {lastname}
           </Typography>
           <Button
-            onClick={() => {
-              logout();
-              navigate("/");
-            }}
+            onClick={handleLogout}
             variant="outlined"
             sx={{ color: "white", marginLeft: "auto" }}
           >

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -20,8 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { DailyTickets } from "./DailyTickets";
 import { FinalizedTickets } from "./FinalizedTickets";
 import { PendingTickets } from "./PendingTickets";
-
-
+import { useAuth } from "../../hooks/useAuth";
 
 const drawerWidth = 240;
 
@@ -30,17 +30,21 @@ export const DashboardTechnical = (props) => {
   const [isClosing, setIsClosing] = useState(false);
   const [selectedoption, setSelectedOption] = useState("");
 
+  const { logOut, userData } = useAuth();
+
+  const { name, lastname } = userData;
+
+  const navigate = useNavigate();
+
   const renderComponet = () => {
-    
     switch (selectedoption) {
-      
       case "Pendientes":
         return <PendingTickets />;
       case "Finalizados":
         return <FinalizedTickets />;
-      
+
       default:
-        return <DailyTickets  />;
+        return <DailyTickets />;
     }
   };
 
@@ -57,6 +61,11 @@ export const DashboardTechnical = (props) => {
     if (!isClosing) {
       setMobileOpen(!mobileOpen);
     }
+  };
+
+  const handleLogout = () => {
+    logOut();
+    navigate("/auth/login");
   };
 
   const drawer = (
@@ -111,10 +120,10 @@ export const DashboardTechnical = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Bienvenido Sebastián
+            Bienvenido {name} {lastname}
           </Typography>
           <Button
-            onClick={() => console.log("Saliendo...")}
+            onClick={handleLogout}
             variant="outlined"
             sx={{ color: "white", marginLeft: "auto" }}
           >

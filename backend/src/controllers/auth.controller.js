@@ -1,6 +1,8 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { createAccessToken } from "../libs/jwt.js";
+import jwt from "jsonwebtoken";
+import { TOKEN_SECRET } from "../config.js";
 
 
 
@@ -56,6 +58,7 @@ export const profile = async (req, res) => {
 
 export const getallusers = async (req, res) => {
   try {
+
     const usersList = await User.find();
     if (!usersList) return res.status(400).json({ message: "No hay usuarios" });
     res.json(usersList);
@@ -95,3 +98,37 @@ export const register = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+//funcion para verificar el token despues del login
+export const verifyToken = async (req,res)=>{
+
+  //obtenemos el token de las cookies
+    const {token} =req.cookies; 
+    
+    if(!token) return res.status(401).json({message:"token no autorizado"});
+
+    //verificamos el token con la clave secreta
+    jwt.verify(token, TOKEN_SECRET,async (err,user)=>{
+      if(err) return res.status(401).json({message:"token no autorizado"});
+
+      
+      const userFound= await User.findById(user.id);
+      if(!userFound) return res.status(401).json({message:"token no autorizado"});
+
+
+
+      return res.json({
+        id: userFound._id,
+        name: userFound.name,
+        lastname: userFound.lastname,
+        email: userFound.email,
+        role: userFound.role,
+      })
+
+    })
+
+
+
+  
+}

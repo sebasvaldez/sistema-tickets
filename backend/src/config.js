@@ -1,1 +1,1 @@
-export const TOKEN_SECRET='mi clave secreta';
+export const TOKEN_SECRET='...a la grande le puse Cuca';

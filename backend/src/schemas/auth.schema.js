@@ -4,14 +4,15 @@ export const registerSchema = z.object({
   name: z
     .string({
       required_error: "El nombre es requerido",
+      
     })
-    .min(3)
+    .min(3, {message: "El nombre es requerido"})
     .max(255),
   lastname: z
     .string({
-      required_error: "El apellido es requerido",
+      message: "El apellido es requerido",
     })
-    .min(3)
+    .min(3, {message: "El apellido es requerido"})
     .max(255),
   email: z
     .string({
