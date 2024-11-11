@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import {
@@ -32,17 +32,17 @@ const drawerWidth = 240;
 export const DashboardAdministrator = () => {
   const { logOut, userData } = useAuth();
 
-  const {name, lastname}= userData
-
+  const { name, lastname } = userData;
 
   const navigate = useNavigate();
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [selectedoption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("");
+  const [title, setTitle] = useState("Tickets del día");
 
   const renderComponet = () => {
-    switch (selectedoption) {
+    switch (selectedOption) {
       case "Tickets del dia":
         return <DailyTickets />;
       case "Crear ticket":
@@ -82,7 +82,39 @@ export const DashboardAdministrator = () => {
   const handleLogout = () => {
     logOut();
     navigate("/auth/login");
-  }
+  };
+
+  useEffect(() => {
+    switch (selectedOption) {
+      case "Tickets del dia":
+        setTitle("Tickets del día");
+        break;
+      case "Crear ticket":
+        setTitle("Crear ticket");
+        break;
+      case "Pendientes":
+        setTitle("Pendientes");
+        break;
+      case "Finalizados":
+        setTitle("Finalizados");
+        break;
+      case "Técnicos":
+        setTitle("Técnicos");
+        break;
+      case "Nuevo usuario":
+        setTitle("Nuevo usuario");
+        break;
+      case "Tecnicos":
+        setTitle("Lista de Técnicos");
+        break;
+      case "No tecnicos":
+        setTitle("Lista de No Técnicos");
+        break;
+      default:
+        setTitle("Tickets del día");
+        break;
+    }
+  }, [selectedOption]);
 
   const drawer = (
     <div>
@@ -236,6 +268,7 @@ export const DashboardAdministrator = () => {
         }}
       >
         <Toolbar />
+        {title}
         {renderComponet()}
       </Box>
     </Box>

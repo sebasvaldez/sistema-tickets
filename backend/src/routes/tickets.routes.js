@@ -12,6 +12,7 @@ import {
 const router = Router();
 
 router.get("/tickets", authRequired, getTickets);
+
 router.post("/tickets", authRequired, createTicket);
 
 //ruta para los tickets asignados a los tecnicos

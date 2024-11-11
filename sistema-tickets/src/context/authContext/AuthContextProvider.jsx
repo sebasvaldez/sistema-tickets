@@ -45,7 +45,6 @@ export const AuthContextProvider = ({ children }) => {
     if (token) {
       try {
         const resp =await verifyTokenRequest(token);
-        console.log(resp)
         if(!resp.data) setIsAuthenticated(false);
 
         setUserData(resp.data);

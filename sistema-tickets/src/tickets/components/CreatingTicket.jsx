@@ -1,25 +1,29 @@
-import {
-  FormControl,
-  TextField,
-  Box,
-  Button,
-} from "@mui/material";
+import { FormControl, TextField, Box, Button, Typography } from "@mui/material";
 import { useScreenSize } from "../../hooks/useScreenSize";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const CreatingTicket = () => {
+import { useTickets } from "../../hooks/useTickets";
+import { useAuth } from "../../hooks/useAuth";
+import { TechnicalList } from "./TechnicalList";
 
+export const CreatingTicket = () => {
+  const { createTicket } = useTickets();
+  const { userData } = useAuth();
+  
+
+  const {role}= userData
+
+  
   const ticketDefault = {
     title: "",
     description: "",
-    status: "pending",
-  }
+  };
 
   const [newTicket, setNewTicket] = useState(ticketDefault);
-  const { isMobile, isTablet, isDesktop } = useScreenSize();
+  const { isMobile, isTablet } = useScreenSize();
 
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setNewTicket({
@@ -29,11 +33,10 @@ export const CreatingTicket = () => {
   };
 
   const handleSubmitTicket = () => {
-    console.log(newTicket);
-
+    createTicket(newTicket);
+    setNewTicket(ticketDefault);
   };
   const cancelTicket = () => {
-    
     setNewTicket(ticketDefault);
   };
 
@@ -51,7 +54,6 @@ export const CreatingTicket = () => {
         marginTop: "20px",
       }}
     >
-
       <FormControl>
         <TextField
           id="title"
@@ -79,24 +81,9 @@ export const CreatingTicket = () => {
           value={newTicket.description}
         />
 
-        {/* <FormControl>
-          <InputLabel id="roleId">Role</InputLabel>
-          <Select
-            id="role"
-            labelId="roleId"
-            label="Role"
-            variant="outlined"
-            value={role}
-            required
-            fullWidth
-            onChange={roleChange}
-          >
-            <MenuItem value="administrator">Administrador</MenuItem>
-            <MenuItem value="technical">Técnico</MenuItem>
-            <MenuItem value="no-technical">Usuarios</MenuItem>
-          </Select>
-        </FormControl> */}
-
+        {
+          role === "administrator" && <TechnicalList />
+        }
         <Box sx={{ textAlign: "center" }}>
           <Button onClick={handleSubmitTicket}>Crear ticket</Button>
           <Button onClick={cancelTicket}>Cancelar</Button>
