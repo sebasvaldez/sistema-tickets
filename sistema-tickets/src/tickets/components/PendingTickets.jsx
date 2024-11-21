@@ -1,22 +1,27 @@
 import {useTickets} from '../../hooks/useTickets';  
+import { TicketTable } from './TicketTable';
+import { Box } from '@mui/material';
 
 export const PendingTickets = () => {
 
   const {tickets}= useTickets();
+  console.log(tickets)
 
-  const pendingTickets= tickets.filter((ticket)=> ticket.status === 'unrealized');
+  const sortedTickets= tickets.sort((a,b)=> new Date(b.date) - new Date(a.date));
+
+  const pendingTickets= sortedTickets.filter((ticket)=> ticket.status === 'unrealized' || ticket.status === 'in progress');
+
+  console.log(pendingTickets)
 
   if(pendingTickets.length === 0){
     return <h1>No pending tickets</h1>
   }else{
     return (
-      <div>
-        {pendingTickets.map((ticket) => (
-          <div key={ticket._id}>
-            <h1>{ticket.title}</h1>
-            <p>{ticket.description}</p>
-          </div>
-        ))}
-      </div>)
+      
+      <Box>
+        <TicketTable tickets={pendingTickets} />
+
+      </Box>
+    )
   }
 }

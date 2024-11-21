@@ -2,7 +2,6 @@ import { useTickets } from "../../hooks/useTickets";
 
 export const DailyTickets = () => {
   const { tickets } = useTickets();
-
   console.log(tickets)
 
   //guardo la fecha de hoy en una variable
@@ -17,7 +16,6 @@ export const DailyTickets = () => {
     (ticket) => ticket.createdAt.split("T")[0] === todayString
   );
 
-  console.log(dailyTickets)
 
   {
     if (dailyTickets.length === 0) {

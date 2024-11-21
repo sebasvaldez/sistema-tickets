@@ -8,9 +8,13 @@ import {
 import Cookies from "js-cookie";
 
 export const AuthContextProvider = ({ children }) => {
+
+ 
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+
 
   const loginUser = async (user) => {
     try {
@@ -49,6 +53,7 @@ export const AuthContextProvider = ({ children }) => {
 
         setUserData(resp.data);
         setIsAuthenticated(true);
+        
 
       } catch (error) {
         setError(error.response.data.message);
@@ -69,6 +74,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
    
     checkLogin();
+
   }, []);
 
   return (

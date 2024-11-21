@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useScreenSize } from "../../hooks/useScreenSize.js";
 import { Box, Button, FormControl, TextField, Alert } from "@mui/material";
 import { useAuth } from "../../hooks/useAuth.js";
+import { useTickets } from "../../hooks/useTickets.js";
 
 export const Login = () => {
   const { isMobile, isTablet, isDesktop } = useScreenSize();
   const { loginUser, userData, isAuthenticated, error, setError } = useAuth();
+  const {getAllTickets} = useTickets();
 
   const navigate = useNavigate();
 
@@ -24,6 +26,7 @@ export const Login = () => {
 
   const handleSubmit = async () => {
     await loginUser(user);
+    await getAllTickets();
   };
 
   useEffect(() => {

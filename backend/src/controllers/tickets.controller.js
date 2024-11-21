@@ -5,7 +5,9 @@ export const getTickets = async (req, res) => {
   try {
     const ticket = await Ticket.find({
       user: req.user.id,
-    }).populate("userAsigned");
+    }).populate("userAsigned")
+    .populate("user","name lastname")
+    .populate("history.updatedBy");
     res.json(ticket);
   } catch (error) {
     return res.status(500).json({

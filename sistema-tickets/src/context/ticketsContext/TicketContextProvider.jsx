@@ -34,16 +34,16 @@ export const TicketContextProvider = ({ children }) => {
 
   useEffect(() => {
     getAllTickets();
-  }, []);
+  }, [setTickets]);
 
- 
   return (
     <TicketContex.Provider
       value={{
         errorTickets,
         getAllTickets,
         createTicket,
-        tickets
+        tickets,
+        setTickets,
       }}
     >
       {children}
