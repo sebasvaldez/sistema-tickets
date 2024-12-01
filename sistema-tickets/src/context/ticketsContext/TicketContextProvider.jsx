@@ -7,10 +7,18 @@ import {
   updateTicketRequest,
 } from "../../api/tickets";
 
+import { useAuth } from "../..//hooks/useAuth";
+
+
+
 export const TicketContextProvider = ({ children }) => {
   const [errorTickets, setErrorTickets] = useState(null);
   const [tickets, setTickets] = useState([]);
 
+
+  const {isAuthenticated} = useAuth();
+
+  
   const getAllTickets = async () => {
     try {
       const resp = await getTicketsRequest();
@@ -33,8 +41,12 @@ export const TicketContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getAllTickets();
-  }, [setTickets]);
+    
+    if (isAuthenticated) {
+      getAllTickets();
+    }
+
+  }, [isAuthenticated]);
 
   return (
     <TicketContex.Provider

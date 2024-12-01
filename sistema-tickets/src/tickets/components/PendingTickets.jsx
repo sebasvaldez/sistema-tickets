@@ -5,13 +5,11 @@ import { Box } from '@mui/material';
 export const PendingTickets = () => {
 
   const {tickets}= useTickets();
-  console.log(tickets)
 
   const sortedTickets= tickets.sort((a,b)=> new Date(b.date) - new Date(a.date));
 
   const pendingTickets= sortedTickets.filter((ticket)=> ticket.status === 'unrealized' || ticket.status === 'in progress');
 
-  console.log(pendingTickets)
 
   if(pendingTickets.length === 0){
     return <h1>No pending tickets</h1>

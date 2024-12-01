@@ -1,44 +1,80 @@
-import { FormControl, TextField, Box, Button, Typography } from "@mui/material";
+import {
+  FormControl,
+  TextField,
+  Box,
+  Button,
+  Typography,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { useScreenSize } from "../../hooks/useScreenSize";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useCallback } from "react";
 
 import { useTickets } from "../../hooks/useTickets";
 import { useAuth } from "../../hooks/useAuth";
 import { TechnicalList } from "./TechnicalList";
+import { useEffect } from "react";
 
 export const CreatingTicket = () => {
   const { createTicket } = useTickets();
-  const { userData } = useAuth();
-  
+  const { userData, allUsers } = useAuth();
 
-  const {role}= userData
 
-  
+  const [technicalAssigned, setTechnicalAssigned] = useState("");
+
+
+  //console.log(technicalAssigned)
+
+  const { role } = userData;
+
+  const technicalUsers = allUsers.filter((user) => user.role === "technical");
+
   const ticketDefault = {
     title: "",
     description: "",
+    userAsigned: "",
   };
 
   const [newTicket, setNewTicket] = useState(ticketDefault);
   const { isMobile, isTablet } = useScreenSize();
 
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
     setNewTicket({
       ...newTicket,
       [e.target.id]: e.target.value,
+
+      
     });
   };
 
+ 
+  const handleAssigned = (e) => {
+    setTechnicalAssigned(e.target.value);
+  };
+
   const handleSubmitTicket = () => {
-    createTicket(newTicket);
-    setNewTicket(ticketDefault);
+
+     createTicket(newTicket);
+     setNewTicket(ticketDefault);
+     //console.log(newTicket);
+
   };
   const cancelTicket = () => {
     setNewTicket(ticketDefault);
   };
+
+  //console.log(newTicket);
+
+  useEffect(() => {
+    if (technicalAssigned) {
+      setNewTicket({
+        ...newTicket,
+        userAsigned: technicalAssigned,
+      });
+    }
+  }, [technicalAssigned]);
+  
 
   return (
     <Box
@@ -81,9 +117,24 @@ export const CreatingTicket = () => {
           value={newTicket.description}
         />
 
-        {
-          role === "administrator" && <TechnicalList />
-        }
+        {role === "administrator" && (
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Técnico</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={technicalAssigned}
+              label="Técnico"
+              onChange={handleAssigned}
+            >
+              {technicalUsers.map((user) => (
+                <MenuItem key={user._id} value={user._id}>
+                  {user.name + " " + user.lastname}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
         <Box sx={{ textAlign: "center" }}>
           <Button onClick={handleSubmitTicket}>Crear ticket</Button>
           <Button onClick={cancelTicket}>Cancelar</Button>

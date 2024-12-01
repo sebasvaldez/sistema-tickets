@@ -2,7 +2,6 @@ import { useTickets } from "../../hooks/useTickets";
 
 export const DailyTickets = () => {
   const { tickets } = useTickets();
-  console.log(tickets)
 
   //guardo la fecha de hoy en una variable
   const today = new Date();

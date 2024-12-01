@@ -4,6 +4,7 @@ import {
   loginRequest,
   registerRequest,
   verifyTokenRequest,
+  getAllUsersRequest
 } from "../../api/auth.js";
 import Cookies from "js-cookie";
 
@@ -13,6 +14,7 @@ export const AuthContextProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [allUsers, setAllUsers] = useState([]);
 
 
 
@@ -64,6 +66,22 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
+
+  const getAllUsers= async ()=>{
+    try {
+      const resp = await getAllUsersRequest();
+      setAllUsers(resp.data);
+
+      
+    } catch (error) {
+
+      setError(error.response.data.message);
+      
+    }
+  }
+
+
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setError(null);
@@ -77,6 +95,12 @@ export const AuthContextProvider = ({ children }) => {
 
   }, []);
 
+  useEffect(() => {
+    if(isAuthenticated){
+      getAllUsers();
+    }
+  }, [isAuthenticated]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -87,6 +111,7 @@ export const AuthContextProvider = ({ children }) => {
         isAuthenticated,
         error,
         setError,
+        allUsers
       }}
     >
       {children}

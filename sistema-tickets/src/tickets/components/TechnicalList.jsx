@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTheme,} from '@mui/material/styles';
 import {OutlinedInput,InputLabel, MenuItem ,FormControl, Select} from '@mui/material/';
+import { useAuth } from '../../hooks/useAuth';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -13,18 +14,7 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
+
 
 function getStyles(name, personName, theme) {
   return {
@@ -35,6 +25,12 @@ function getStyles(name, personName, theme) {
 }
 
 export const TechnicalList=()=> {
+
+  const {allUsers} = useAuth();
+
+ 
+
+  const technicalUsers= allUsers.filter(user=> user.role === "technical")
 
 
   const theme = useTheme();
@@ -63,14 +59,15 @@ export const TechnicalList=()=> {
           input={<OutlinedInput label="Name" />}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {technicalUsers.map((user) => (
             <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
+              key={user._id}
+              value={user.name + " " + user.lastname}
+              style={getStyles(user.name, personName, theme)}
             >
-              {name}
+              {user.name + " " + user.lastname}
             </MenuItem>
+            
           ))}
         </Select>
       </FormControl>
