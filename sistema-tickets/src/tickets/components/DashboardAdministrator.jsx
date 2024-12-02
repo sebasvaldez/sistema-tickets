@@ -268,7 +268,14 @@ export const DashboardAdministrator = () => {
         }}
       >
         <Toolbar />
+        <Typography
+          variant="h4"
+          sx={{ textAlign: "center", marginBottom: "20px" }}
+        
+        >
+
         {title}
+        </Typography>
         {renderComponet()}
       </Box>
     </Box>

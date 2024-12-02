@@ -1,18 +1,20 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
-import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
+import {
+  Typography,
+  Box,
+  Collapse,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material/";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 
 function Row(props) {
   const { row } = props;
@@ -38,9 +40,26 @@ function Row(props) {
           {row.status == "unrealized" ? "No realizado" : "En proceso"}
         </TableCell>
         <TableCell align="right">
-          {row.userAsigned?.name && row.userAsigned?.lastname
-            ? `${row.userAsigned.name} ${row.userAsigned.lastname}`
-            : "Sin técnico asignado"}{" "}
+          {row.userAsigned?.name && row.userAsigned?.lastname ? (
+            `${row.userAsigned.name} ${row.userAsigned.lastname}`
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <Typography>Asignar</Typography>
+              <IconButton
+                onClick={(e) => {
+                  console.log(row._id)
+                }}
+              >
+                <ModeEditOutlineIcon />
+              </IconButton>
+            </Box>
+          )}{" "}
         </TableCell>
         <TableCell align="right">
           {new Date(row.date).toLocaleDateString("es-AR", {
@@ -67,43 +86,42 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {
-                    row.history.length > 0 ? (
-                      row.history.map((historyRow) => (
-                        <TableRow key={historyRow?._id}>
-                          <TableCell component="th" scope="row">
+                  {row.history.length > 0 ? (
+                    row.history.map((historyRow) => (
+                      <TableRow key={historyRow?._id}>
+                        <TableCell component="th" scope="row">
+                          {new Date(historyRow.date).toLocaleDateString(
+                            "es-AR",
                             {
-                                new Date(historyRow.date).toLocaleDateString("es-AR", {
-                                  day: "2-digit",
-                                  month: "2-digit",
-                                  year: "numeric",
-                                })
-
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
                             }
-                          </TableCell>
-                          <TableCell>
-                            {historyRow.updatedBy.name}</TableCell>
-                          <TableCell align="right">
-                            {historyRow?.changes.status == "unrealized"
-                              ? "No realizado"
-                              : historyRow?.changes.status == "in progress"
-                                ? "En proceso"
-                                : historyRow?.changes.status == "completed"? "Completado": "No realizado"}
-                          </TableCell>
-                          <TableCell align="right">
-                            {historyRow?.changes.description ||
-                              "No se agregó una descripción"}
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    ):(
-                      <TableRow>
-                        <TableCell colSpan={4} align="center">
-                          No hay historial
+                          )}
+                        </TableCell>
+                        <TableCell>{historyRow.updatedBy.name}</TableCell>
+                        <TableCell align="right">
+                          {historyRow?.changes.status == "unrealized"
+                            ? "No realizado"
+                            : historyRow?.changes.status == "in progress"
+                              ? "En proceso"
+                              : historyRow?.changes.status == "completed"
+                                ? "Completado"
+                                : "No realizado"}
+                        </TableCell>
+                        <TableCell align="right">
+                          {historyRow?.changes.description ||
+                            "No se agregó una descripción"}
                         </TableCell>
                       </TableRow>
-                    )
-                  }
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={4} align="center">
+                        No hay historial
+                      </TableCell>
+                    </TableRow>
+                  )}
                 </TableBody>
               </Table>
             </Box>
@@ -117,7 +135,7 @@ function Row(props) {
 export const TicketTable = (pendingTickets) => {
   const tickets = pendingTickets.tickets;
 
-  //console.log(tickets);
+ // console.log(tickets);
 
   function createData(
     title,
@@ -126,7 +144,8 @@ export const TicketTable = (pendingTickets) => {
     userAsigned,
     createdAt,
     date,
-    history
+    history,
+    _id
   ) {
     return {
       title,
@@ -136,16 +155,9 @@ export const TicketTable = (pendingTickets) => {
       createdAt,
       date,
       history,
+      _id
     };
   }
-
-  // const rows = [
-  //   createData("Frozen yoghurt", 159, 6.0, 24),
-  //   createData("Ice cream sandwich", 237, 9.0, 37),
-  //   createData("Eclair", 262, 16.0, 24),
-  //   createData("Cupcake", 305, 3.7, 67),
-  //   createData("Gingerbread", 356, 16.0, 49),
-  // ];
 
   const rows = [];
   tickets.forEach((ticket) => {
@@ -157,7 +169,8 @@ export const TicketTable = (pendingTickets) => {
         ticket.userAsigned,
         ticket.createdAt,
         ticket.date,
-        ticket.history
+        ticket.history,
+        ticket._id
       )
     );
   });
@@ -177,7 +190,6 @@ export const TicketTable = (pendingTickets) => {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            
             <Row key={row.title} row={row} />
           ))}
         </TableBody>

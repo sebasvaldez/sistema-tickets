@@ -1,4 +1,5 @@
 import { useTickets } from "../../hooks/useTickets";
+import { Typography } from "@mui/material";
 
 export const DailyTickets = () => {
   const { tickets } = useTickets();
@@ -15,10 +16,13 @@ export const DailyTickets = () => {
     (ticket) => ticket.createdAt.split("T")[0] === todayString
   );
 
-
   {
     if (dailyTickets.length === 0) {
-      return <h1>No daily tickets</h1>;
+      return (
+        <Typography variant="h5" align="center" color="textSecondary">
+          Aun no se cargaron tickets el día de hoy
+        </Typography>
+      );
     } else {
       return (
         <div>
